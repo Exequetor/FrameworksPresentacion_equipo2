@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<mappers>
+		<mapper resource="cursoNTecnologias/bd/mappers/ClienteMapper.xml" />
+		<mapper resource="cursoNTecnologias/bd/mappers/DetalleVentasMapper.xml" />
+		<mapper resource="cursoNTecnologias/bd/mappers/DireccionMapper.xml" />
+		<mapper resource="cursoNTecnologias/bd/mappers/GananciasMapper.xml" />
+		<mapper resource="cursoNTecnologias/bd/mappers/MarcasMapper.xml" />
+		<mapper resource="cursoNTecnologias/bd/mappers/ProductosMapper.xml" />
+		<mapper resource="cursoNTecnologias/bd/mappers/VentasMapper.xml" />
+	</mappers>
+</configuration>
