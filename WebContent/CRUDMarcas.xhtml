@@ -9,52 +9,84 @@
 	<title>Probando Primefaces</title>
 </h:head>
 <h:body>
-	<h1>Inicio con Maven + MyBatis + Spring + JSF + Primefaces</h1>
-	<h3>Marcas BD</h3>
+
 	<h:form id="form">
 		<p:growl id="msgs" showDetail="true" />
 		<!-- tiene el prefijo p, esto quiere decir que se esta usando
 primefaces -->
-		<p:dataTable id="marcas" var="prod"
+		<p:dataTable id="marcasT" var="mark"
 			value="#{marcasBean.getMarcasList()}" editable="true"
 			style="margin-bottom:20px; ">
 			<f:facet name="header">
 				CRUD DE MARCAS
 			</f:facet>
-			
+
 			<p:ajax event="rowEdit" listener="#{marcasBean.onRowEdit}"
 				update=":form:msgs" />
-			
 			<p:ajax event="rowEditCancel" listener="#{marcasBean.onRowCancel}"
 				update=":form:msgs" />
-			
-			<p:column headerText="Id" >
-				<p:cellEditor >
+
+
+			<p:column headerText="Id" style="width:10%;">
+				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{prod.idmarca}" />
+						<h:outputText value="#{mark.idmarca}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:inputText id="productosInput" value="#{prod.idmarca}"
+						<h:inputText id="markuctosInput" value="#{mark.idmarca}"
 							style="width:100%" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Nombre">
+			<p:column headerText="Nombre" style="width:50%">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{prod.nombremarca}" />
+						<h:outputText value="#{mark.nombremarca}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:inputText value="#{prod.nombremarca}" style="width:100%"
+						<h:inputText value="#{mark.nombremarca}" style="width:100%"
 							label="Nombre" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			
-			<p:column style="width:32px">
+
+			<p:column style="width:20%">
 				<p:rowEditor />
+				<p:commandButton action="#{marcasBean.deleteBtn(mark.idmarca)}"
+					value="Borrar"
+					style="font-size:8px; max-width: 85px; max-height:35px;"
+					id="deleteP" title="Eliminar" />
 			</p:column>
+
+			<f:facet name="footer">
+				<p:commandButton value="Nueva Marca"
+					onclick="PF('dialogMarca').show();" />
+			</f:facet>
+
 		</p:dataTable>
 	</h:form>
+
+	<!-- dialog de registro -->
+	<p:dialog id="dialogMarca" widgetVar="dialogMarca" modal="true"
+		resizable="false" header="Nueva Marca" width="55%">
+		<div class="row">
+			<h:form role="form" id="formRegMarca">
+				<h:panelGrid columns="3" cellpadding="5">
+					<p:outputLabel value="Nombre: *" />
+					<p:inputText id="nombreMarca" style="width: 325px"
+						value="#{marcasBean.nombre}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese nombre de una marca">
+						<f:validateLength minimum="2" maximum="80" />
+					</p:inputText>
+				</h:panelGrid>
+
+				<p:commandButton id="btnRegistro" value="Agregar"
+					actionListener="#{marcasBean.agregar}"
+					update=":form:marcasT,:dialogMarca" 
+					oncomplete="PF('dialogMarca').show()" process="@form" />
+			</h:form>
+		</div>
+	</p:dialog>
 </h:body>
 </html>
