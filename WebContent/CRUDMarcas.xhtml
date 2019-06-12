@@ -24,7 +24,7 @@ primefaces -->
 			
 			<p:ajax event="rowEdit" listener="#{marcasBean.onRowEdit}"
 				update=":form:msgs" />
-			
+			<p:commandButton value="Remove" icon="fa fa-fw fa-remove" type="button"/>
 			<p:ajax event="rowEditCancel" listener="#{marcasBean.onRowCancel}"
 				update=":form:msgs" />
 			
