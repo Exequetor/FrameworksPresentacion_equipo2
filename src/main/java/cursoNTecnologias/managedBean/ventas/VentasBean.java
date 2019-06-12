@@ -1,6 +1,7 @@
 package cursoNTecnologias.managedBean.ventas;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -12,7 +13,7 @@ import javax.inject.Named;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
-
+import cursoNTecnologias.bd.domain.Cliente;
 import cursoNTecnologias.bd.domain.Ventas;
 import cursoNTecnologias.service.ventas.VentasService;
 
@@ -23,8 +24,45 @@ public class VentasBean implements Serializable {
 	
 	@Inject
 	VentasService service;
+	
 	List<Ventas> ventasList = null;
 	
+	private Cliente cliente;
+	private Integer idventa;
+    private Integer clienteid;
+    private Double totalventa;
+    private Date fecha;
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	public Integer getIdventa() {
+		return idventa;
+	}
+	public void setIdventa(Integer idventa) {
+		this.idventa = idventa;
+	}
+	public Integer getClienteid() {
+		return clienteid;
+	}
+	public void setClienteid(Integer clienteid) {
+		this.clienteid = clienteid;
+	}
+	public Double getTotalventa() {
+		return totalventa;
+	}
+	public void setTotalventa(Double totalventa) {
+		this.totalventa = totalventa;
+	}
+	public Date getFecha() {
+		return fecha;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
 	public void setVentasList(List<Ventas> ventasList) {
 		this.ventasList = ventasList;
 	}
