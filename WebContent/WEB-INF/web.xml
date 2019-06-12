@@ -32,4 +32,8 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 			org.springframework.web.context.request.RequestContextListener
 		</listener-class>
 	</listener>
+	<context-param>
+	    <param-name>primefaces.FONT_AWESOME</param-name>
+	    <param-value>true</param-value>
+	</context-param>
 </web-app>

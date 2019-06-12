@@ -6,11 +6,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Probando Primefaces</title>
+	<title>Sistema de inventarios</title>
 </h:head>
 <h:body>
-	<h1>Inicio con Maven + MyBatis + Spring + JSF + Primefaces</h1>
-	<h3>Productos BD</h3>
 	<h:form id="form">
 		<p:growl id="msgs" showDetail="true" />
 		<!-- tiene el prefijo p, esto quiere decir que se esta usando
@@ -64,7 +62,8 @@ primefaces -->
 						<h:outputText value="#{prod.preciovta}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:inputText value="#{prod.preciovta}" style="width:100%" label="PrecioDeVenta" />
+						<h:inputText value="#{prod.preciovta}" style="width:100%"
+							label="PrecioDeVenta" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -74,14 +73,89 @@ primefaces -->
 						<h:outputText value="#{prod.cantidad}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:inputText value="#{prod.cantidad}" style="width:100%" label="Cantidad" />
+						<h:inputText value="#{prod.cantidad}" style="width:100%"
+							label="Cantidad" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 			<p:column style="width:32px">
 				<p:rowEditor />
 			</p:column>
+			<f:facet name="footer">
+				<p:commandButton value="Nuevo Producto"
+					onclick="PF('dialogProducto').show();" />
+			</f:facet>
 		</p:dataTable>
 	</h:form>
+
+	<!-- dialog de registro -->
+	<p:dialog id="dialogProducto" widgetVar="dialogProducto" modal="true"
+		resizable="false" header="Nuevo Producto" width="55%">
+		<div >
+			<h:form role="form" id="formRegProductos">
+				<h:panelGrid columns="3" cellpadding="5">
+					
+					<p:outputLabel value="Nombre: *" />
+					<p:inputText id="nombreP" style="width: 80%"
+						value="#{productosBean.nombre}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese nombre del productos">
+						<f:validateLength minimum="2" maximum="80" />
+					</p:inputText>
+					<p:message for="nombreP" styleClass="" />
+					
+					<p:outputLabel value="Precio: *" />
+					<p:inputText id="precio" style="width: 80%"
+						value="#{productosBean.precio}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese mayor a 0">
+						<f:validateLength minimum="1" />
+					</p:inputText>
+					
+					<p:outputLabel value="Precio de venta: *" />
+					<p:inputText id="precioVta" style="width: 80%"
+						value="#{productosBean.precioVta}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese mayor a 0">
+						<f:validateLength minimum="1" />
+					</p:inputText>
+
+					<p:outputLabel value="Cantidad: *" />
+					<p:inputText id="cantidad" style="width: 80%"
+						value="#{productosBean.cantidad}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese mayor a 0">
+						<f:validateLength minimum="1" />
+					</p:inputText>
+
+					<p:outputLabel value="Marca: *" />
+					<p:column styleClass="ocultar-bordes">
+						<p:selectOneMenu id="selectMarca" value="#{productosBean.marca}"
+							var="temp" converter="#{MarcasConverter}" effect="fade"
+							filter="true" panelStyle="width:300px" style="width:335px"
+							filterMatchMode="startsWith" required="true"
+							requiredMessage="Debe seleccionar una marca.">
+							<f:selectItem itemLabel="Seleccione una marca"
+								itemValue="#{null}" process="@this" />
+							<f:selectItems value="#{marcasBean.getMarcasList()}" var="marcas"
+								itemLabel="#{marcas.idmarca} - #{marcas.nombremarca}"
+								itemValue="#{marcas}" />
+							<p:column style="width:10%">
+								<h:outputText value="#{temp.idmarca}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{temp.nombremarca}" />
+							</p:column>
+						</p:selectOneMenu>
+					</p:column>
+					<p:message for="selectMarca" />
+				</h:panelGrid>
+				<p:commandButton id="btnRegistro" value="Registrar"
+					actionListener="#{productosBean.registrar}"
+					update=":form:productos,:dialogProducto"
+					oncomplete="PF('dialogproductos').show()" process="@form" />
+			</h:form>
+		</div>
+	</p:dialog>
 </h:body>
 </html>
