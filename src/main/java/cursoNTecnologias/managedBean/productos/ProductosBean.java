@@ -13,6 +13,7 @@ import org.primefaces.event.RowEditEvent;
 
 import cursoNTecnologias.bd.domain.Marcas;
 import cursoNTecnologias.bd.domain.Productos;
+import cursoNTecnologias.service.marcas.MarcasServiceImpl;
 import cursoNTecnologias.service.productos.ProductosService;
 import cursoNTecnologias.service.productos.ProductosServiceImpl;
 
@@ -21,6 +22,9 @@ import cursoNTecnologias.service.productos.ProductosServiceImpl;
 public class ProductosBean {
 	@Inject
 	ProductosServiceImpl productosService;
+	@Inject
+	MarcasServiceImpl marcasService;
+	
 	private List<Productos> ProductosList;
 	
 	private String nombre;
@@ -28,14 +32,14 @@ public class ProductosBean {
 	private double precioVta;
 	private int cantidad;
 	
-	private String marca;
+	private Marcas marca;
 	
 	
 	
-	public void setMarca(String marca) {
+	public void setMarca(Marcas marca) {
 		this.marca=marca;
 	}
-	public String getMarca() {return this.marca;}
+	public Marcas getMarca() {return this.marca;}
 	
 	public void setNombre(String nombre) {
 		this.nombre=nombre;
@@ -89,7 +93,7 @@ public class ProductosBean {
 	}
 	
 	public void registrar() {
-		System.out.println("Entre al registro "+ marca.getClass());
+		System.out.println("Entre al registro "+ marca.getNombremarca());
 		/*System.out.print(marca.getNombremarca() +" --> "+marca.getIdmarca());
 		Productos p=new Productos();
 		p.setNombre(nombre);
