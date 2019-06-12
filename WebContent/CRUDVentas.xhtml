@@ -34,14 +34,29 @@ primefaces -->
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Cliente Id">
+			<p:column headerText="Cliente">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{venta.clienteid}" />
+						<h:outputText value="#{venta.cliente.id} - #{venta.cliente.nombre} #{venta.cliente.apellido}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:inputText value="#{venta.clienteid}" style="width:100%"
-							label="clienteid" />
+						<p:selectOneMenu id="selectCliente" value="#{ventasBean.cliente}"
+							var="temp" converter="#{clienteConverter}" effect="fade"
+							filter="true" panelStyle="width:300px" style="width:335px"
+							filterMatchMode="startsWith" required="true"
+							requiredMessage="Debe seleccionar un cliente">
+							<f:selectItem itemLabel="Seleccione un cliente"
+								itemValue="#{null}" process="@this" />
+							<f:selectItems value="#{clienteBean.getClienteList()}" var="cliente"
+								itemLabel="#{cliente.id} - #{cliente.nombre} #{venta.cliente.apellido}"
+								itemValue="#{cliente}" />
+							<p:column style="width:10%">
+								<h:outputText value="#{temp.id}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{temp.nombre} #{temp.apellido}" />
+							</p:column>
+						</p:selectOneMenu>
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
