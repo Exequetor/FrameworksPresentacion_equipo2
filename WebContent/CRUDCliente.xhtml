@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Probando Cliente</title>
+</h:head>
+<h:body>
+	<h3>Clientes BD</h3>
+
+	<h:form id="form">
+		<p:growl id="msgs" showDetail="true" />
+		<!-- tiene el prefijo p, esto quiere decir que se esta usando primefaces -->
+		<p:dataTable id="clientes" var="cli"
+			value="#{clienteBean.getClienteList()}" editable="true"
+			style="margin-bottom:20px">
+			<f:facet name="header">
+				Edición de Cliente
+			</f:facet>
+			<p:ajax event="rowEdit" listener="#{clienteBean.onRowEdit}"
+				update=":form:msgs" />
+			<p:ajax event="rowEditCancel" listener="#{clienteBean.onRowCancel}"
+				update=":form:msgs" />
+			<p:column headerText="Id">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cli.id}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText id="clienteInput" value="#{cli.id}"
+							style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Nombre">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cli.nombre}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{cli.nombre}" style="width:100%"
+							label="Nombre" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Apellido">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cli.apellido}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{cli.apellido}" style="width:100%"
+							label="Apellido" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Email">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cli.email}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{cli.email}" style="width:100%" label="Email" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Sexo">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cli.sexo}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:inputText value="#{cli.sexo}" style="width:100%" label="Estado" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+			<f:facet name="footer">
+				<p:commandButton value="Nuevo Cliente"
+					onclick="PF('dialogCliente').show();" />
+			</f:facet>
+		</p:dataTable>
+	</h:form>
+
+	<!-- dialog de registro -->
+	<p:dialog id="dialogCliente" widgetVar="dialogCliente" modal="true"
+		resizable="false" header="Nuevo Cliente" width="55%">
+		<div class="row">
+			<h:form role="form" id="formRegCliente">
+				<h:panelGrid columns="3" cellpadding="5">
+					<p:outputLabel value="Nombre: *" />
+					<p:inputText id="firstName" style="width: 325px"
+						value="#{clienteBean.cliente.nombre}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese entre 8-80 caracteres">
+						<f:validateLength minimum="2" maximum="80" />
+					</p:inputText>
+					<p:message for="firstName" styleClass="" />
+					<p:outputLabel value="Apellido: *" />
+					<p:inputText id="apellido" style="width: 325px"
+						value="#{clienteBean.cliente.apellido}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese entre 8-80 caracteres">
+						<f:validateLength minimum="2" maximum="80" />
+					</p:inputText>
+					<p:message for="apellido" />
+					<p:outputLabel value="Email: *" />
+					<p:inputText id="email" style="width: 250px"
+						value="#{clienteBean.cliente.email}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese un email valido">
+						<f:validateRegex
+							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Zaz0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					</p:inputText>
+					<p:message for="email" />
+					<p:outputLabel value="Sexo: *" />
+					<p:inputText id="sexo" style="width: 50px"
+						value="#{clienteBean.cliente.sexo}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese el sexo H/M:">
+						<f:validateLength minimum="1" maximum="5" />
+					</p:inputText>
+					<p:message for="sexo" />
+					<p:outputLabel value="Direccion: *" />
+					<p:column styleClass="ocultar-bordes">
+						<p:selectOneMenu id="selectDireccion"
+							value="#{clienteBean.cliente.direccion}" var="temp"
+							converter="#{direccionConverter}" effect="fade" filter="true"
+							panelStyle="width:300px" style="width:335px"
+							filterMatchMode="startsWith" required="true"
+							requiredMessage="Debe seleccionar una direccion.">
+							<f:selectItem itemLabel="Seleccione una direccion"
+								itemValue="#{null}" process="@this" />
+							<f:selectItems value="#{direccionBean.getDireccionList()}"
+								var="direccion"
+								itemLabel="#{direccion.iddireccion} - #{direccion.calle}"
+								itemValue="#{direccion}" />
+							<p:column style="width:10%">
+								<h:outputText value="#{temp.iddireccion}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{temp.calle}" />
+							</p:column>
+						</p:selectOneMenu>
+					</p:column>
+					<p:message for="selectDireccion" />
+				</h:panelGrid>
+				<p:commandButton id="btnRegistro" value="Registrar"
+					actionListener="#{clienteBean.registrar}"
+					update=":form:clientes,:dialogCliente"
+					oncomplete="PF('dialogCliente').show()" process="@form" />
+			</h:form>
+		</div>
+	</p:dialog>
+</h:body>
+</html>
