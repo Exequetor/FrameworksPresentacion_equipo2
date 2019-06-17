@@ -81,9 +81,15 @@ primefaces -->
 			<p:column style="width:32px">
 				<p:rowEditor />
 			</p:column>
+			<p:column style="width:32px">
+				<p:commandButton action="#{productosBean.deleteBtn(prod.idproducto)}"
+					value="Borrar"
+					style="font-size:8px; max-width: 85px; max-height:35px;"
+					id="deleteP" title="Eliminar" />
+			</p:column>
 			<f:facet name="footer">
 				<p:commandButton value="Nuevo Producto"
-					onclick="PF('dialogProducto').show();" />
+					onclick="PF('dialogProducto').show();"/>
 			</f:facet>
 		</p:dataTable>
 	</h:form>

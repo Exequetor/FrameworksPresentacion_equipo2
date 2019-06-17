@@ -102,4 +102,11 @@ public class ProductosBean {
 		p.setMarcaid(marca.getIdmarca());
 		productosService.agregarProducto(p);*/
 	}
+	public void deleteBtn(Integer id) {
+		System.out.println("Productos con id " + id + " eliminada");
+		productosService.deleteProducto(id);
+		FacesMessage msg = new FacesMessage("Producto eliminada" + id);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		setProductosList(productosService.listarProductos());
+	}
 }

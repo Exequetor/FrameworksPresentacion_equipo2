@@ -50,14 +50,15 @@ primefaces -->
 				</p:cellEditor>
 			</p:column>
 
-			<p:column style="width:20%">
+			<p:column style="width:32px">
 				<p:rowEditor />
+			</p:column>
+			<p:column style="width:32px">
 				<p:commandButton action="#{marcasBean.deleteBtn(mark.idmarca)}"
 					value="Borrar"
 					style="font-size:8px; max-width: 85px; max-height:35px;"
 					id="deleteP" title="Eliminar" />
 			</p:column>
-
 			<f:facet name="footer">
 				<p:commandButton value="Nueva Marca"
 					onclick="PF('dialogMarca').show();" />

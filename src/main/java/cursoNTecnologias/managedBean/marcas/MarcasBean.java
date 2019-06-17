@@ -91,7 +91,7 @@ public class MarcasBean {
 		marcasService.deleteMarca(id);
 		FacesMessage msg = new FacesMessage("Marcas eliminada" + id);
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-
+		setMarcasList(marcasService.listarMarcas());
 	}
 
 	public void agregar() {
@@ -102,15 +102,5 @@ public class MarcasBean {
 		marcasService.insertMarca(marca);
 	}
 
-	// metodo que registra nuevo cliente
-	public void registrar() {
-		System.out.println("Marca !!!");
-		// invocar al servicio
-		marcasService.agregarMarca(getMarca());
-		// limpia los valores del objeto
-		setMarca(new Marcas());
-		// se actualiza los valores de la tabla
-		setMarcasList(marcasService.obtenerTodasMarca());
-		getMarcasList();
-	}
+
 }
