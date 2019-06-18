@@ -16,11 +16,11 @@
 primefaces -->
 		<p:dataTable id="marcasT" var="mark"
 			value="#{marcasBean.getMarcasList()}" editable="true"
-			style="margin-bottom:20px; ">
+			style="margin-bottom:20px;" widgetVar="marksTable">
 			<f:facet name="header">
 				CRUD DE MARCAS
 			</f:facet>
-
+		
 			<p:ajax event="rowEdit" listener="#{marcasBean.onRowEdit}"
 				update=":form:msgs" />
 			<p:ajax event="rowEditCancel" listener="#{marcasBean.onRowCancel}"
@@ -34,11 +34,11 @@ primefaces -->
 					</f:facet>
 					<f:facet name="input">
 						<h:inputText id="markuctosInput" value="#{mark.idmarca}"
-							style="width:100%" />
+							style="width:100%" disabled="true"/>
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Nombre" style="width:50%">
+			<p:column headerText="Nombre" style="width:50%" filterBy="#{mark.nombremarca}" filterMatchMode="contains" >
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{mark.nombremarca}" />
