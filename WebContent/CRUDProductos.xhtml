@@ -30,11 +30,11 @@ primefaces -->
 					</f:facet>
 					<f:facet name="input">
 						<h:inputText id="productosInput" value="#{prod.idproducto}"
-							style="width:100%" />
+							style="width:100%" disabled="true" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Nombre">
+			<p:column headerText="Nombre" filterBy="#{prod.nombre}" filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{prod.nombre}" />
@@ -45,7 +45,7 @@ primefaces -->
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Precio">
+			<p:column headerText="Precio" filterBy="#{prod.precio}" filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{prod.precio}" />
@@ -56,7 +56,7 @@ primefaces -->
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="PrecioDeVenta">
+			<p:column headerText="PrecioDeVenta" filterBy="#{prod.preciovta}" filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{prod.preciovta}" />
@@ -67,7 +67,7 @@ primefaces -->
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Cantidad">
+			<p:column headerText="Cantidad" filterBy="#{prod.cantidad}" filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{prod.cantidad}" />
