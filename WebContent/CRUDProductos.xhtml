@@ -137,7 +137,7 @@ primefaces -->
 					<p:outputLabel value="Marca: *" />
 					<p:column styleClass="ocultar-bordes">
 						<p:selectOneMenu id="selectMarca" value="#{productosBean.marca}"
-							var="temp" converter="#{MarcasConverter}" effect="fade"
+							var="temp" converter="#{marcasConverter}" effect="fade"
 							filter="true" panelStyle="width:300px" style="width:335px"
 							filterMatchMode="startsWith" required="true"
 							requiredMessage="Debe seleccionar una marca.">

@@ -13,6 +13,8 @@ import javax.inject.Named;
 
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
+
+import cursoNTecnologias.bd.domain.Direccion;
 import cursoNTecnologias.bd.domain.Marcas;
 import cursoNTecnologias.service.marcas.MarcasService;
 import cursoNTecnologias.service.marcas.MarcasServiceImpl;
@@ -100,7 +102,18 @@ public class MarcasBean {
 		marca.setIdmarca(1);
 		marca.setNombremarca(this.nombre);
 		marcasService.insertMarca(marca);
+		setMarcasList(marcasService.listarMarcas());
 	}
-
+	//metodo para registrar un nuevo cliente
+		public void registrar(){
+			System.out.println("Marcas");
+			//invocar al servicio
+			marcasService.agregarMarca(getMarca());
+			//limpia los valores del objeto
+			setMarca(new Marcas());
+			//Se actualiza los valores de la tabla
+			setMarcasList(marcasService.listarMarcas());
+			getMarcasList();
+		}
 
 }

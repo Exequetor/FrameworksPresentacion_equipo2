@@ -45,18 +45,22 @@ public class ProductosBean {
 		this.nombre=nombre;
 	}
 	public String getNombre() {return this.nombre;}
+	
 	public void setPrecio(double precio) {
 		this.precio=precio;
 	}
 	public double getPrecio() {return this.precio;}
+	
 	public void setPrecioVta(double precioVta) {
 		this.precioVta=precioVta;
 	}
 	public double getPrecioVta() {return this.precioVta;}
+	
 	public void setCantidad(int cantidad) {
 		this.cantidad=cantidad;
 	}
 	public int getCantidad() {return this.cantidad;}
+
 
 	public List<Productos> getProductosList() {
 		if (ProductosList == null)
@@ -93,19 +97,20 @@ public class ProductosBean {
 	}
 	
 	public void registrar() {
-		System.out.println("Entre al registro "+ marca.getNombremarca());
-		/*System.out.print(marca.getNombremarca() +" --> "+marca.getIdmarca());
 		Productos p=new Productos();
 		p.setNombre(nombre);
 		p.setPrecio(precio);
 		p.setPreciovta(precioVta);
+		p.setCantidad(cantidad);
 		p.setMarcaid(marca.getIdmarca());
-		productosService.agregarProducto(p);*/
+		productosService.agregarProducto(p);
+		setProductosList(productosService.listarProductos());
+
 	}
 	public void deleteBtn(Integer id) {
-		System.out.println("Productos con id " + id + " eliminada");
+		System.out.println("Productos con id " + id + " eliminado");
 		productosService.deleteProducto(id);
-		FacesMessage msg = new FacesMessage("Producto eliminada" + id);
+		FacesMessage msg = new FacesMessage("Producto eliminado" + id);
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		setProductosList(productosService.listarProductos());
 	}
