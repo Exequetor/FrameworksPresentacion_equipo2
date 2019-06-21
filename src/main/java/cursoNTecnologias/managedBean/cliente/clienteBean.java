@@ -108,14 +108,22 @@ public class clienteBean {
 		setClienteList(clienteService.listarTodosClientesDireccion());
 		getClienteList();
 	}
-
+	
+	public void eliminar(Integer id){
+		clienteService.eliminarCliente(id);
+		setCliente(new Cliente());
+		setClienteList(clienteService.listarTodosClientes());
+		getClienteList();	
+	}
+	
 	public void onRowEdit(RowEditEvent event) {
-		Cliente cliente = ((Cliente) event.getObject());
-		System.out.println("Datos Cliente: " + cliente.getId());
-		clienteService.actualizarCliente(cliente);
-
-		FacesMessage mensaje = new FacesMessage("Cliente editado", cliente.getId().toString());
+		Cliente clienteTemporal=((Cliente) event.getObject());
+		System.out.println("Datos Cliente: " + clienteTemporal.getId());
+		clienteTemporal.setDireccion(cliente.getDireccion());
+		clienteService.actualizarCliente(clienteTemporal);
+		FacesMessage mensaje = new FacesMessage("Cliente editado", clienteTemporal.getId().toString());
 		FacesContext.getCurrentInstance().addMessage(null, mensaje);
+		//getClienteList();
 	}
 
 	public void onRowCancel(RowEditEvent event) {
