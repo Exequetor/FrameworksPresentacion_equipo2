@@ -6,10 +6,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Probando Direccion</title>
+	<title>Sistema de inventarios</title>
 </h:head>
 <h:body>
-	<h3>Direccion BD</h3>
 	<h:form id="form">
 		<p:growl id="msgs" showDetail="true" />
 		<!-- tiene el prefijo p, esto quiere decir que se esta usando primefaces -->
@@ -17,35 +16,28 @@
 			value="#{direccionBean.getDireccionList()}" editable="true"
 			style="margin-bottom:20px">
 			<f:facet name="header">
-				Edición de Direccion
+				CRUD DE DIRECCIÓN
 			</f:facet>
 			<p:ajax event="rowEdit" listener="#{direccionBean.onRowEdit}"
 				update=":form:msgs" />
 			<p:ajax event="rowEditCancel" listener="#{direccionBean.onRowCancel}"
 				update=":form:msgs" />
 			<p:column headerText="Id">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{dir.iddireccion}" />
-					</f:facet>
-					<f:facet name="input">
-						<h:inputText id="direccionInput" value="#{dir.iddireccion}"
-							style="width:100%" />
-					</f:facet>
-				</p:cellEditor>
+				<h:outputText value="#{dir.iddireccion}" />
 			</p:column>
-			<p:column headerText="Calle">
+			<p:column headerText="Calle" filterBy="#{dir.calle}"
+				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{dir.calle}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:inputText value="#dir.calle}" style="width:100%"
-							label="Calle" />
+						<h:inputText value="#{dir.calle}" style="width:100%" label="Calle" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Numero">
+			<p:column headerText="Numero" filterBy="#{dir.numero}"
+				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{dir.numero}" />
@@ -56,43 +48,44 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Colonia">
+			<p:column headerText="Colonia" filterBy="#{dir.colonia}"
+				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{dir.colonia}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:inputText value="#{dir.colonia}" style="width:100%" label="Colonia" />
+						<h:inputText value="#{dir.colonia}" style="width:100%"
+							label="Colonia" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Ciudad">
+			<p:column headerText="Ciudad" filterBy="#{dir.ciudad}"
+				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{dir.ciudad}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:inputText value="#{dir.ciudad}" style="width:100%" label="Ciudad" />
+						<h:inputText value="#{dir.ciudad}" style="width:100%"
+							label="Ciudad" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column style="width:32px">
-				<p:rowEditor />
-			</p:column>
-			<p:column headerText="Estado">
+			<p:column headerText="Estado" filterBy="#{dir.estado}"
+				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{dir.estado}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:inputText value="#{dir.estado}" style="width:100%" label="Estado" />
+						<h:inputText value="#{dir.estado}" style="width:100%"
+							label="Estado" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column style="width:32px">
-				<p:rowEditor />
-			</p:column>
-			<p:column headerText="Pais">
+			<p:column headerText="Pais" filterBy="#{dir.pais}"
+				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{dir.pais}" />
@@ -102,23 +95,114 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column style="width:32px">
-				<p:rowEditor />
-			</p:column>
-			<p:column headerText="Codigo postal">
+			<p:column headerText="Codigo postal" filterBy="#{dir.codigopostal}"
+				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{dir.codigopostal}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:inputText value="#{dir.codigopostal}" style="width:100%" label="Codigo postal" />
+						<h:inputText value="#{dir.codigopostal}" style="width:100%"
+							label="Codigo postal" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 			<p:column style="width:32px">
 				<p:rowEditor />
 			</p:column>
+			
+			<f:facet name="footer">
+				<p:commandButton value="Nueva Dirección"
+					onclick="PF('dialogDireccion').show();" />
+			</f:facet>
+			
+			<p:column>
+				<p:commandButton id="btnEliminar" value="Eliminar"
+					actionListener="#{direccionBean.eliminar(dir.iddireccion)}"
+					update=":form" ajax="true" />
+			</p:column>
 		</p:dataTable>
 	</h:form>
+
+
+	<!-- dialog de registro -->
+	<p:dialog id="dialogDireccion" widgetVar="dialogDireccion" modal="true"
+		resizable="false" header="Nueva Direccion" width="55%">
+		<div class="row">
+			<h:form role="form" id="formRegDireccion">
+				<h:panelGrid columns="3" cellpadding="5">
+
+					<p:outputLabel value="Calle: *" />
+					<p:inputText id="calle" style="width: 325px"
+						value="#{direccionBean.calle}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese la calle:">
+						<f:validateLength minimum="2" maximum="80" />
+					</p:inputText>
+					<p:message for="calle" />
+
+					<p:outputLabel value="Numero: *" />
+					<p:inputText id="numero" style="width: 325px"
+						value="#{direccionBean.numero}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese el número de casa">
+						<f:validateLength minimum="1" maximum="5" />
+					</p:inputText>
+					<p:message for="numero" />
+
+					<p:outputLabel value="Colonia: *" />
+					<p:inputText id="colonia" style="width: 325px"
+						value="#{direccionBean.colonia}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese la colonia">
+						<f:validateLength minimum="2" maximum="80" />
+					</p:inputText>
+					<p:message for="colonia" />
+
+					<p:outputLabel value="Ciudad: *" />
+					<p:inputText id="ciudad" style="width: 325px"
+						value="#{direccionBean.ciudad}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese la ciudad">
+						<f:validateLength minimum="2" maximum="80" />
+					</p:inputText>
+					<p:message for="ciudad" />
+
+					<p:outputLabel value="Estado: *" />
+					<p:inputText id="estado" style="width: 325px"
+						value="#{direccionBean.estado}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese el estado">
+						<f:validateLength minimum="2" maximum="80" />
+					</p:inputText>
+					<p:message for="estado" />
+
+					<p:outputLabel value="Pais: *" />
+					<p:inputText id="pais" style="width: 325px"
+						value="#{direccionBean.pais}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese el país">
+						<f:validateLength minimum="2" maximum="80" />
+					</p:inputText>
+					<p:message for="pais" />
+
+					<p:outputLabel value="Codigo postal: *" />
+					<p:inputText id="codigopostal" style="width: 325px"
+						value="#{direccionBean.codigopostal}" styleClass="form-control"
+						required="true" requiredMessage="Campo requerido"
+						validatorMessage="Ingrese el código postal">
+						<f:validateLength minimum="2" maximum="80" />
+					</p:inputText>
+					<p:message for="codigopostal" />
+
+				</h:panelGrid>
+				<p:commandButton id="btnRegistro" value="Agregar"
+					actionListener="#{direccionBean.agregar}"
+					update=":form:direccion,:dialogDireccion"
+					oncomplete="PF('dialogDireccion').show()" process="@form" />
+			</h:form>
+		</div>
+	</p:dialog>
+	<br> <a href="http://localhost:8080/FrameworksPresentacion_equipo2/index.html">RETORNAR AL INDEX</a> </br>
 </h:body>
 </html>

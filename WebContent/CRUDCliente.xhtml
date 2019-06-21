@@ -6,11 +6,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Probando Cliente</title>
+	<title>Sistema de inventarios</title>
 </h:head>
 <h:body>
-	<h3>Clientes BD</h3>
-
 	<h:form id="form">
 		<p:growl id="msgs" showDetail="true" />
 		<!-- tiene el prefijo p, esto quiere decir que se esta usando primefaces -->
@@ -18,24 +16,17 @@
 			value="#{clienteBean.getClienteList()}" editable="true"
 			style="margin-bottom:20px">
 			<f:facet name="header">
-				Edición de Cliente
+			CRUD DE CLIENTES
 			</f:facet>
 			<p:ajax event="rowEdit" listener="#{clienteBean.onRowEdit}"
 				update=":form:msgs" />
 			<p:ajax event="rowEditCancel" listener="#{clienteBean.onRowCancel}"
 				update=":form:msgs" />
 			<p:column headerText="Id">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{cli.id}" />
-					</f:facet>
-					<f:facet name="input">
-						<h:inputText id="clienteInput" value="#{cli.id}"
-							style="width:100%" />
-					</f:facet>
-				</p:cellEditor>
+				<h:outputText value="#{cli.id}" />
 			</p:column>
-			<p:column headerText="Nombre">
+			<p:column headerText="Nombre" filterBy="#{cli.nombre}"
+				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{cli.nombre}" />
@@ -46,7 +37,8 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Apellido">
+			<p:column headerText="Apellido" filterBy="#{cli.apellido}"
+				filterMatchMode="contains" >
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{cli.apellido}" />
@@ -57,7 +49,8 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Email">
+			<p:column headerText="Email" filterBy="#{cli.email}"
+				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{cli.email}" />
@@ -67,7 +60,8 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Sexo">
+			<p:column headerText="Sexo" filterBy="#{cli.sexo}"
+				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{cli.sexo}" />
@@ -77,13 +71,49 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
+
+			<p:column headerText="Dirección" filterBy="#{cli.direccion.calle}" 
+				filterMatchMode="contains">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{cli.direccion.calle}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu id="selectDireccion"
+							value="#{clienteBean.cliente.direccion}" var="temp"
+							converter="#{direccionConverter}" effect="fade" filter="true"
+							panelStyle="width:300px" style="width:335px"
+							filterMatchMode="startsWith" required="true">
+							<f:selectItems value="#{direccionBean.getDireccionList()}"
+								var="direccion"
+								itemLabel="#{direccion.iddireccion} - #{direccion.calle}"
+								itemValue="#{direccion}" />
+							<p:column style="width:10%">
+								<h:outputText value="#{temp.iddireccion}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{temp.calle}" />
+							</p:column>
+						</p:selectOneMenu>
+					</f:facet>
+					<p:message for="selectDireccion" />
+				</p:cellEditor>
+			</p:column>
+
 			<p:column style="width:32px">
 				<p:rowEditor />
 			</p:column>
+
+
 			<f:facet name="footer">
 				<p:commandButton value="Nuevo Cliente"
 					onclick="PF('dialogCliente').show();" />
 			</f:facet>
+			<p:column>
+				<p:commandButton id="btnEliminar" value="Eliminar"
+					actionListener="#{clienteBean.eliminar(cli.id)}" update=":form"
+					ajax="true" />
+			</p:column>
 		</p:dataTable>
 	</h:form>
 
@@ -147,6 +177,7 @@
 								<h:outputText value="#{temp.calle}" />
 							</p:column>
 						</p:selectOneMenu>
+
 					</p:column>
 					<p:message for="selectDireccion" />
 				</h:panelGrid>
@@ -157,5 +188,8 @@
 			</h:form>
 		</div>
 	</p:dialog>
+	<br>
+	<a href="http://localhost:8080/FrameworksPresentacion_equipo2/index.html">RETORNAR AL INDEX</a>
+	</br>
 </h:body>
 </html>
