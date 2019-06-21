@@ -78,12 +78,42 @@ primefaces -->
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
+			
+			<p:column headerText="Marca" filterBy="#{prod.marcas.nombremarca}" 
+				filterMatchMode="contains">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{prod.marcas.nombremarca}" />
+					</f:facet>
+					  <f:facet name="input">
+						<p:selectOneMenu id="selectMarca" value="#{productosBean.marca}"
+							var="temp" converter="#{marcasConverter}" effect="fade"
+							filter="true" panelStyle="width:300px" style="width:335px"
+							filterMatchMode="startsWith" required="true"
+							requiredMessage="Debe seleccionar una marca.">
+							<f:selectItem itemLabel="Seleccione una marca"
+								itemValue="#{null}" process="@this" />
+							<f:selectItems value="#{marcasBean.getMarcasList()}" var="marcas"
+								itemLabel="#{marcas.idmarca} - #{marcas.nombremarca}"
+								itemValue="#{marcas}" />
+							<p:column style="width:10%">
+								<h:outputText value="#{temp.idmarca}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{temp.nombremarca}" />
+							</p:column>
+						</p:selectOneMenu>
+					</f:facet>
+					<p:message for="selectDireccion" />
+				</p:cellEditor>
+			</p:column>
+			
 			<p:column style="width:32px">
 				<p:rowEditor />
 			</p:column>
 			<p:column style="width:32px">
 				<p:commandButton action="#{productosBean.deleteBtn(prod.idproducto)}"
-					value="Borrar"
+					value="Borrar" update=":form:msgs"
 					style="font-size:8px; max-width: 85px; max-height:35px;"
 					id="deleteP" title="Eliminar" />
 			</p:column>
@@ -163,5 +193,8 @@ primefaces -->
 			</h:form>
 		</div>
 	</p:dialog>
+	<br>
+	<a href="http://localhost:8080/FrameworksPresentacion_equipo2/index.html">RETORNAR AL INDEX</a>
+	</br>
 </h:body>
 </html>

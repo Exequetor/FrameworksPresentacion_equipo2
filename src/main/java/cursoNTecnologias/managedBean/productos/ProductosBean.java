@@ -34,7 +34,7 @@ public class ProductosBean {
 	
 	private Marcas marca;
 	
-	
+	private Productos producto=new Productos();
 	
 	public void setMarca(Marcas marca) {
 		this.marca=marca;
@@ -61,6 +61,10 @@ public class ProductosBean {
 	}
 	public int getCantidad() {return this.cantidad;}
 
+	public Productos getProductos() {return this.producto;}
+	public void setProductos(Productos producto) {
+		this.producto=producto;
+	}
 
 	public List<Productos> getProductosList() {
 		if (ProductosList == null)
@@ -74,10 +78,11 @@ public class ProductosBean {
 
 	public void onRowEdit(RowEditEvent event) {
 		Productos Productos = ((Productos) event.getObject());
-		System.out.println("datos Productos: " + Productos.getIdproducto());
+		Productos.setMarcaid(marca.getIdmarca());
 		productosService.updateProducto(Productos);
 		FacesMessage msg = new FacesMessage("Productos editado", Productos.getIdproducto().toString());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		setProductosList(productosService.listarProductos());
 	}
 
 	public void onRowCancel(RowEditEvent event) {
