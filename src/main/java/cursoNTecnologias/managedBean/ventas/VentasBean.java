@@ -72,10 +72,12 @@ public class VentasBean implements Serializable {
 		return ventasList;
 	}
 	public void onRowEdit(RowEditEvent event) {
-		System.out.println("On row edit");
+		System.out.println("On row edit-----------------------------------------------------");
 		Ventas venta = ((Ventas) event.getObject());
+		System.out.println(venta.getCliente());
 		System.out.println("Datos ventas: \n" + venta);
 		service.updateVenta(venta);
+		setVentasList(service.queryAllVentas());
 		FacesMessage msg = new FacesMessage("Venta editada", venta.getIdventa().toString());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
@@ -96,6 +98,15 @@ public class VentasBean implements Serializable {
 					"Antes: " + oldValue + ", Ahora: " + newValue);
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
+	}
+	
+	public void delete(Integer id) {
+		System.out.println("Venta con id = " + id + " eliminado");
+		service.deleteVenta(id);
+		FacesMessage msg = new FacesMessage("Venta " + id + " eliminada");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		this.ventasList = null;
+		getVentasList();
 	}
 	
 }

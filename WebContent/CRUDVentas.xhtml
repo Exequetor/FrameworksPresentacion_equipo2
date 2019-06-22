@@ -23,18 +23,10 @@ primefaces -->
 				update=":form:msgs" />
 			<p:ajax event="rowEditCancel" listener="#{ventasBean.onRowCancel}"
 				update=":form:msgs" />
-			<p:column headerText="Id">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{venta.idventa}" />
-					</f:facet>
-					<f:facet name="input">
-						<h:inputText id="ventasInput" value="#{venta.idventa}"
-							style="width:100%" />
-					</f:facet>
-				</p:cellEditor>
+			<p:column headerText="Id" style="width:32px">
+				<h:outputText value="#{venta.idventa}" />
 			</p:column>
-			<p:column headerText="Cliente">
+			<p:column headerText="Cliente" filterBy="#{venta.cliente.nombre} #{venta.cliente.apellido}" filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{venta.cliente.id} - #{venta.cliente.nombre} #{venta.cliente.apellido}" />
@@ -48,7 +40,7 @@ primefaces -->
 							<f:selectItem itemLabel="Seleccione un cliente"
 								itemValue="#{null}" process="@this" />
 							<f:selectItems value="#{clienteBean.getClienteList()}" var="cliente"
-								itemLabel="#{cliente.id} - #{cliente.nombre} #{venta.cliente.apellido}"
+								itemLabel="#{cliente.id} - #{cliente.nombre} #{cliente.apellido}"
 								itemValue="#{cliente}" />
 							<p:column style="width:10%">
 								<h:outputText value="#{temp.id}" />
@@ -60,18 +52,10 @@ primefaces -->
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="Total venta">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{venta.totalventa}" />
-					</f:facet>
-					<f:facet name="input">
-						<h:inputText value="#{venta.totalventa}" style="width:100%"
-							label="totalventa" />
-					</f:facet>
-				</p:cellEditor>
+			<p:column headerText="Total venta" filterBy="#{venta.totalventa}" filterMatchMode="contains">
+				<h:outputText value="#{venta.totalventa}" />
 			</p:column>
-			<p:column headerText="Fecha de la venta">
+			<p:column headerText="Fecha de la venta" filterBy="#{venta.getFechaString()}" filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{venta.getFechaString()}" />
@@ -81,43 +65,50 @@ primefaces -->
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column style="width:32px">
+			<p:column style="width:150px">
 				<p:rowEditor />
-			</p:column>
+				<p:commandButton id="btnDelete" value="Eliminar"
+					actionListener="#{ventasBean.delete(venta.idventa)}" update=":form"
+					ajax="true" />
+			</p:column>>
 			<f:facet name="footer">
-
+				<p:commandButton value="Nueva venta"
+					onclick="PF('dialogo-venta').show();" />
 			</f:facet>
 		</p:dataTable>
 		<a href="/FrameworksPresentacion_equipo2/">Retornar al index</a>
 	</h:form>
 	
-	<script type="text/javascript">    
-	    PrimeFaces.locales['de'] = {
-	        closeText: 'Schließen',
-	        prevText: 'Zurück',
-	        nextText: 'Weiter',
-	        monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-	        monthNamesShort: ['Jan', 'Feb', 'März', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
-	        dayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
-	        dayNamesShort: ['Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam'],
-	        dayNamesMin: ['S', 'M', 'D', 'M ', 'D', 'F ', 'S'],
-	        weekHeader: 'Woche',
-	        FirstDay: 1,
-	        isRTL: false,
-	        showMonthAfterYear: false,
-	        yearSuffix: '',
-	        timeOnlyTitle: 'Nur Zeit',
-	        timeText: 'Zeit',
-	        hourText: 'Stunde',
-	        minuteText: 'Minute',
-	        secondText: 'Sekunde',
-	        currentText: 'Aktuelles Datum',
-	        ampm: false,
-	        month: 'Monat',
-	        week: 'Woche',
-	        day: 'Tag',
-	        allDayText: 'Ganzer Tag'
-	    };
-	</script>
+	<!-- dialog de registro -->
+	<p:dialog id="dialogo-venta" widgetVar="dialogo-venta" modal="true"
+		resizable="false" header="Nueva venta" width="55%">
+		<div >
+			<h:form role="form" id="form-reg-venta">
+				<h:panelGrid columns="3" cellpadding="5">
+					
+					<p:outputLabel value="Cliente *" />
+					<p:selectOneMenu id="select-cliente" value="#{ventasBean.cliente}"
+							var="temp" converter="#{ClienteConverter}" effect="fade"
+							filter="true" panelStyle="width:300px" style="width:335px"
+							filterMatchMode="startsWith" required="true"
+							requiredMessage="Debe seleccionar un cliente">
+							<f:selectItem itemLabel="Seleccione un cliente"
+								itemValue="#{null}" process="@this" />
+							<f:selectItems value="#{clienteBean.getClienteList()}" var="cliente"
+								itemLabel="#{cliente.id} - #{cliente.nombre} #{cliente.apellido}"
+								itemValue="#{cliente}" />
+							<p:column style="width:10%">
+								<h:outputText value="#{temp.id}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{temp.id} - #{temp.nombre} #{temp.apellido}" />
+							</p:column>
+						</p:selectOneMenu>
+					<p:message for="select-cliente" styleClass="" />
+				</h:panelGrid>
+			
+			</h:form>
+		</div>
+	</p:dialog>
 </h:body>
 </html>
