@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Sistema de inventarios</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<p:growl id="msgs" showDetail="true" />
+		<p:dataTable id="ganancias" var="ganancia"
+			value="#{gananciasBean.getGananciasList()}" editable="true"
+			style="margin-bottom:20px">
+			<f:facet name="header">
+				CRUD DE GANANCIAS
+			</f:facet>
+			<p:ajax event="rowEdit" listener="#{gananciasBean.onRowEdit}"
+				update=":form:msgs" />
+			<p:ajax event="rowEditCancel" listener="#{gananciasBean.onRowCancel}"
+				update=":form:msgs" />
+			<p:column headerText="Id" style="width:32px">
+				<h:outputText value="#{ganancia.idganancia}" />
+			</p:column>
+			<p:column headerText="Cliente" filterBy="#{ganancia.venta.cliente.nombre} #{ganancia.venta.cliente.apellido}" filterMatchMode="contains">
+				<h:outputText value="#{ganancia.venta.cliente.id} - #{ganancia.venta.cliente.nombre} #{ganancia.venta.cliente.apellido}" />
+			</p:column>
+			<p:column headerText="Total ganancia" filterBy="#{ganancia.totalganancia}" filterMatchMode="contains">
+				<h:outputText value="#{ganancia.totalganancia}" />
+			</p:column>
+			<p:column headerText="Fecha de la ganancia" filterBy="#{ganancia.getFechaString()}" filterMatchMode="contains">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{ganancia.getFechaString()}" />
+					</f:facet>
+					<f:facet name="input">
+	        			<p:calendar id="datetime" value="#{ganancia.fecha}" pattern="MM/dd/yyyy HH:mm:ss" label="fecha"/>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column style="width:150px">
+				<p:rowEditor />
+			</p:column>>
+			<f:facet name="footer">
+			</f:facet>
+		</p:dataTable>
+		<a href="/FrameworksPresentacion_equipo2/">Retornar al index</a>
+	</h:form>
+</h:body>
+</html>
